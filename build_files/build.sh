@@ -24,6 +24,20 @@ EOF
 
 dnf5 install -y 1password
 
+# Cider
+rpm --import https://repo.cider.sh/RPM-GPG-KEY
+
+cat > /etc/yum.repos.d/cider.repo << 'EOF'
+[cidercollective]
+name=Cider Collective Repository
+baseurl=https://repo.cider.sh/rpm/RPMS
+enabled=1
+gpgcheck=1
+gpgkey=https://repo.cider.sh/RPM-GPG-KEY
+EOF
+
+dnf5 install -y Cider
+
 # Discord
 dnf5 install -y discord
 
