@@ -9,16 +9,29 @@ set -ouex pipefail
 # List of rpmfusion packages can be found here:
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
-# this installs a package from fedora repos
-dnf5 install -y tmux 
+# 1Password
+rpm --import https://downloads.1password.com/linux/keys/1password.asc
 
-# Use a COPR Example:
-#
-# dnf5 -y copr enable ublue-os/staging
-# dnf5 -y install package
-# Disable COPRs so they don't end up enabled on the final image:
-# dnf5 -y copr disable ublue-os/staging
+cat > /etc/yum.repos.d/1password.repo << 'EOF'
+[1password]
+name=1Password Stable Channel
+baseurl=https://downloads.1password.com/linux/rpm/stable/$basearch
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey="https://downloads.1password.com/linux/keys/1password.asc"
+EOF
 
-#### Example for enabling a System Unit File
+dnf5 install -y 1password
 
-systemctl enable podman.socket
+# Discord
+dnf5 install -y discord
+
+# Mullvad
+dnf5 config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
+dnf5 install -y mullvad-vpn
+systemctl enable mullvad-daemon.service
+
+# Syncthing
+dnf5 install -y syncthing 
+systemctl --global enable syncthing.service
