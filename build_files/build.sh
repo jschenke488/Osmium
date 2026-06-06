@@ -39,7 +39,9 @@ EOF
 dnf5 install -y Cider
 
 # Discord
-dnf5 install -y discord
+curl -Lo /tmp/discord.rpm "https://discord.com/api/download?platform=linux&format=rpm"
+dnf5 install -y /tmp/discord.rpm
+rm -f /tmp/discord.rpm
 
 # Mullvad
 dnf5 config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
