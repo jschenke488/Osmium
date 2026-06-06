@@ -51,3 +51,8 @@ systemctl enable mullvad-daemon.service
 # Syncthing
 dnf5 install -y syncthing 
 systemctl --global enable syncthing.service
+mkdir -p /etc/systemd/user/syncthing.service.d/
+cat > /etc/systemd/user/syncthing.service.d/condition-user.conf << 'EOF'
+[Unit]
+ConditionUser=!@system
+EOF
