@@ -47,6 +47,7 @@ rm -f /tmp/discord.rpm
 dnf5 config-manager addrepo --from-repofile=https://repository.mullvad.net/rpm/stable/mullvad.repo
 dnf5 install -y mullvad-vpn
 systemctl enable mullvad-daemon.service
+systemctl enable mullvad-early-boot-blocking.service
 
 # Syncthing
 dnf5 install -y syncthing 
