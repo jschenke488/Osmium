@@ -90,5 +90,5 @@ sed -i 's/^block_ipv6 = false/block_ipv6 = true/' \
 cat >> /etc/dnscrypt-proxy/dnscrypt-proxy.toml << 'EOF'
 
 [static.'NextDNS-baf169']
-  stamp = 'sdns://AgEAAAAAAAAAAAAOZG5zLm5leHRkbnMuaW8HL2JhZjE2OQ'
+  stamp = 'sdns://AgEAAAAAAAAAAAAOZG5zLm5leHRkbnMuaW8OL2JhZjE2OS9vc21pdW0'
 EOF
