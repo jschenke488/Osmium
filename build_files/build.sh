@@ -58,6 +58,9 @@ cat > /etc/systemd/user/syncthing.service.d/condition-user.conf << 'EOF'
 ConditionUser=!@system
 EOF
 
+# ripgrep
+dnf5 install -y ripgrep
+
 # DNSCrypt
 dnf5 install -y dnscrypt-proxy
 systemctl disable systemd-resolved
