@@ -57,3 +57,12 @@ cat > /etc/systemd/user/syncthing.service.d/condition-user.conf << 'EOF'
 [Unit]
 ConditionUser=!@system
 EOF
+
+# DNSCrypt
+dnf5 install -y dnscrypt-proxy
+# systemctl disable systemd-resolved
+# rm -f /etc/resolv.conf
+# cat > /etc/resolv.conf << 'EOF'
+# nameserver 127.0.0.1
+# options edns0
+# EOF
