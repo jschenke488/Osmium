@@ -60,9 +60,32 @@ EOF
 
 # DNSCrypt
 dnf5 install -y dnscrypt-proxy
-# systemctl disable systemd-resolved
-# rm -f /etc/resolv.conf
-# cat > /etc/resolv.conf << 'EOF'
-# nameserver 127.0.0.1
-# options edns0
-# EOF
+systemctl disable systemd-resolved
+systemctl enable dnscrypt-proxy
+
+mkdir -p /etc/NetworkManager/conf.d/
+cat > /etc/NetworkManager/conf.d/dns.conf << 'EOF'
+[main]
+dns=none
+EOF
+
+rm -f /etc/resolv.conf
+cat > /etc/resolv.conf << 'EOF'
+nameserver 127.0.0.1
+options edns0
+EOF
+
+sed -i "s/^# server_names = .*/server_names = ['NextDNS-baf169']/" \
+    /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+
+sed -i "s/^bootstrap_resolvers = .*/bootstrap_resolvers = ['9.9.9.9:53', '149.112.112.112:53']/" \
+    /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+
+sed -i 's/^block_ipv6 = false/block_ipv6 = true/' \
+    /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+
+cat >> /etc/dnscrypt-proxy/dnscrypt-proxy.toml << 'EOF'
+
+[static.'NextDNS-baf169']
+  stamp = 'sdns://AgEAAAAAAAAAAAAOZG5zLm5leHRkbnMuaW8HL2JhZjE2OQ'
+EOF
