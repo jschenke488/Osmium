@@ -10,7 +10,7 @@ set -ouex pipefail
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # Proton Pass
-read -r RPM_URL RPM_SHA < <(curl -sS https://proton.me/download/PassDesktop/linux/x64/version.json | jq -r '
+read -r PASS_RPM_URL PASS_RPM_SHA < <(curl -sS https://proton.me/download/PassDesktop/linux/x64/version.json | jq -r '
   [.Releases[] | select(.CategoryName == "Stable")] 
   | sort_by(.ReleaseDate) 
   | last 
@@ -21,9 +21,9 @@ read -r RPM_URL RPM_SHA < <(curl -sS https://proton.me/download/PassDesktop/linu
 
 pushd /tmp || exit 1
 
-curl -Lo proton-pass.rpm "$RPM_URL"
+curl -Lo proton-pass.rpm "$PASS_RPM_URL"
 
-if ! echo "$RPM_SHA  proton-pass.rpm" | sha512sum -c -; then
+if ! echo "$PASS_RPM_SHA  proton-pass.rpm" | sha512sum -c -; then
   echo "Error: proton pass checksum doesn't match"
   popd
   exit 1
@@ -32,6 +32,30 @@ fi
 popd
 dnf5 install -y /tmp/proton-pass.rpm
 rm -f /tmp/proton-pass.rpm
+
+# Proton Mail
+read -r MAIL_RPM_URL MAIL_RPM_SHA < <(curl -sS https://proton.me/download/mail/linux/version.json | jq -r '
+  [.Releases[] | select(.CategoryName == "Stable")] 
+  | sort_by(.ReleaseDate) 
+  | last 
+  | .File[] 
+  | select(.Identifier | contains(".rpm")) 
+  | "\(.Url) \(.Sha512CheckSum)"
+')
+
+pushd /tmp || exit 1
+
+curl -Lo proton-mail.rpm "$MAIL_RPM_URL"
+
+if ! echo "$MAIL_RPM_SHA  proton-mail.rpm" | sha512sum -c -; then
+  echo "Error: proton mail checksum doesn't match"
+  popd
+  exit 1
+fi
+
+popd
+dnf5 install -y /tmp/proton-mail.rpm
+rm -f /tmp/proton-mail.rpm
 
 # Cider
 rpm --import https://repo.cider.sh/RPM-GPG-KEY
