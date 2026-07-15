@@ -10,19 +10,19 @@ set -ouex pipefail
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
 
 # 1Password
-rpm --import https://downloads.1password.com/linux/keys/1password.asc
+#rpm --import https://downloads.1password.com/linux/keys/1password.asc
 
-cat > /etc/yum.repos.d/1password.repo << 'EOF'
-[1password]
-name=1Password Stable Channel
-baseurl=https://downloads.1password.com/linux/rpm/stable/$basearch
-enabled=1
-gpgcheck=1
-repo_gpgcheck=1
-gpgkey="https://downloads.1password.com/linux/keys/1password.asc"
-EOF
+#cat > /etc/yum.repos.d/1password.repo << 'EOF'
+#[1password]
+#name=1Password Stable Channel
+#baseurl=https://downloads.1password.com/linux/rpm/stable/$basearch
+#enabled=1
+#gpgcheck=1
+#repo_gpgcheck=1
+#gpgkey="https://downloads.1password.com/linux/keys/1password.asc"
+#EOF
 
-dnf5 install -y 1password
+#dnf5 install -y 1password
 
 # Cider
 rpm --import https://repo.cider.sh/RPM-GPG-KEY
