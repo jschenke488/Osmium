@@ -33,30 +33,6 @@ popd
 dnf5 install -y /tmp/proton-pass.rpm
 rm -f /tmp/proton-pass.rpm
 
-# Proton Mail
-read -r MAIL_RPM_URL MAIL_RPM_SHA < <(curl -sS https://proton.me/download/mail/linux/version.json | jq -r '
-  [.Releases[] | select(.CategoryName == "Stable")] 
-  | sort_by(.ReleaseDate) 
-  | last 
-  | .File[] 
-  | select(.Identifier | contains(".rpm")) 
-  | "\(.Url) \(.Sha512CheckSum)"
-')
-
-pushd /tmp || exit 1
-
-curl -Lo proton-mail.rpm "$MAIL_RPM_URL"
-
-if ! echo "$MAIL_RPM_SHA  proton-mail.rpm" | sha512sum -c -; then
-  echo "Error: proton mail checksum doesn't match"
-  popd
-  exit 1
-fi
-
-popd
-dnf5 install -y /tmp/proton-mail.rpm
-rm -f /tmp/proton-mail.rpm
-
 # Cider
 rpm --import https://repo.cider.sh/RPM-GPG-KEY
 
