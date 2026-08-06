@@ -58,14 +58,11 @@ dnf5 install -y mullvad-vpn
 systemctl enable mullvad-daemon.service
 systemctl enable mullvad-early-boot-blocking.service
 
-# Syncthing
-dnf5 install -y syncthing 
-systemctl --global enable syncthing.service
-mkdir -p /etc/systemd/user/syncthing.service.d/
-cat > /etc/systemd/user/syncthing.service.d/condition-user.conf << 'EOF'
-[Unit]
-ConditionUser=!@system
-EOF
-
 # ripgrep
 dnf5 install -y ripgrep
+
+# Edge
+rpm --import https://packages.microsoft.com/keys/microsoft.asc
+rpm --import https://packages.microsoft.com/keys/microsoft-2025.asc
+dnf5 config-manager addrepo --from-repofile=https://packages.microsoft.com/yumrepos/edge/config.repo
+dnf5 install -y microsoft-edge-stable
