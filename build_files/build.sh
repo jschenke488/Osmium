@@ -60,7 +60,3 @@ systemctl enable mullvad-early-boot-blocking.service
 
 # ripgrep
 dnf5 install -y ripgrep
-
-# Edge
-dnf5 config-manager addrepo --from-repofile=https://packages.microsoft.com/yumrepos/edge/config.repo
-dnf5 install -y microsoft-edge-stable
