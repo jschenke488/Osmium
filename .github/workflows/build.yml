@@ -102,6 +102,7 @@ jobs:
           [storage.options.overlay]
           mount_program = ""
           EOF
+          podman info --format '{{.Store.GraphDriverName}}: {{.Store.GraphOptions}}'
           
       - name: Build Image
         id: build_image
