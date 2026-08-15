@@ -102,8 +102,9 @@ jobs:
           [storage.options.overlay]
           mount_program = ""
           EOF
+          echo "==> Effective containers storage info"
           podman info --format '{{.Store.GraphDriverName}}: {{.Store.GraphOptions}}'
-          
+
       - name: Build Image
         id: build_image
         uses: redhat-actions/buildah-build@27e5954dfd56a621f706827f2de689dc955e8711 # v3.0.1
@@ -116,6 +117,8 @@ jobs:
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
           oci: false
+          extra-args: |
+            --log-level=debug
 
       # Rechunk is a script that we use on Universal Blue to make sure there isnt a single huge layer when your image gets published.
       # This does not make your image faster to download, just provides better resumability and fixes a few errors.
