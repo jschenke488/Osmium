@@ -33,20 +33,6 @@ popd
 dnf5 install -y /tmp/proton-pass.rpm
 rm -f /tmp/proton-pass.rpm
 
-# Cider
-rpm --import https://repo.cider.sh/RPM-GPG-KEY
-
-cat > /etc/yum.repos.d/cider.repo << 'EOF'
-[cidercollective]
-name=Cider Collective Repository
-baseurl=https://repo.cider.sh/rpm/RPMS
-enabled=1
-gpgcheck=1
-gpgkey=https://repo.cider.sh/RPM-GPG-KEY
-EOF
-
-dnf5 install -y Cider
-
 # Discord
 curl -Lo /tmp/discord.rpm "https://discord.com/api/download?platform=linux&format=rpm"
 dnf5 install -y /tmp/discord.rpm
